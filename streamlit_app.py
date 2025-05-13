@@ -21,7 +21,18 @@ chatbot_page = st.Page(
 )
 
 # Navigation setup
-pg = st.navigation(pages=[about_page, sales_dashboard_page, chatbot_page])
+# pg = st.navigation(pages=[about_page, sales_dashboard_page, chatbot_page])
+
+pg = st.navigation(
+    {
+        "Info": [about_page],
+        "Projects": [sales_dashboard_page, chatbot_page]
+    }
+)
+
+#  shared on all pages
+st.logo("assets/laskar_ai_logo.png")
+st.sidebar.text("Made with ❤️ by Margaretha")
 
 # Run
 pg.run()
