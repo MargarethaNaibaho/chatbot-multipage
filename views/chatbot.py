@@ -26,6 +26,9 @@ def response_generator():
 
 st.title("Chatbot")
 
+# Membatasi maksimal jumlah riwayat pesan yang ditampilkan
+MAX_HISTORY = 20
+
 # Initialize chat history
 # Kalo belum ada list messages, dia buat list kosong
 if "messages" not in st.session_state:
@@ -43,6 +46,7 @@ for message in st.session_state.messages:
 if prompt := st.chat_input("What is up?"):
     # masukkan ke history
     st.session_state.messages.append({"role": "user","content": prompt})
+
     with st.chat_message("user"):
         st.markdown(prompt)
     
@@ -50,3 +54,8 @@ if prompt := st.chat_input("What is up?"):
     with st.chat_message("assistant"):
         response = st.write_stream(response_generator())
     st.session_state.messages.append({"role": "assistant", "content": response})
+
+    # batasi jumlah pesan yang disimpan (hapus pesan pertama kalau melebihi batas 20 pesan)
+    if len(st.session_state.messages) > MAX_HISTORY:
+        st.session_state.messages.pop(0)
+        st.session_state.messages.pop(0)
